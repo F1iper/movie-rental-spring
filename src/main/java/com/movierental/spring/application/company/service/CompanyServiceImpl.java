@@ -2,13 +2,12 @@ package com.movierental.spring.application.company.service;
 
 import com.movierental.spring.application.company.dto.CompanyDto;
 import com.movierental.spring.application.company.entity.Company;
-import com.movierental.spring.application.company.entity.CompanyUpdateDto;
+import com.movierental.spring.application.company.dto.CompanyUpdateDto;
 import com.movierental.spring.application.company.mapper.CompanyMapper;
 import com.movierental.spring.application.company.repository.CompanyRepository;
 import com.movierental.spring.exception.EmptyValueException;
 import com.movierental.spring.exception.InvalidDataLengthException;
 import com.movierental.spring.exception.ResourceNotFoundException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +21,11 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
-    private final int MIN_NAME_LENGTH = 3;
+    private final int MIN_NAME_LENGTH = 2;
     private final int MAX_NAME_LENGTH = 40;
 
     @Override
-    public List<CompanyDto> getAll() {
+    public List<CompanyDto> findCompanies() {
         List<Company> companies = companyRepository.findAll();
         return companies.stream()
                 .map(company -> new CompanyDto(company.getCompanyId(), company.getName()))
@@ -34,7 +33,20 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
+    public CompanyDto findById(Long id) {
+        Company company = companyRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Company with id: " + id + " does not exist."));
+        return companyMapper.toDto(company);
+    }
+
+    @Override
     public CompanyDto add(CompanyDto dto) {
+        if (dto.getName().length() < 2) {
+            throw new InvalidDataLengthException("Company name must have a minimum length of 2 characters");
+        }
+        if (dto.getName().length() > 40) {
+            throw new InvalidDataLengthException("Company name must have a maximum length of 40 characters");
+        }
         Company company = companyMapper.toEntity(dto);
         companyRepository.save(company);
         return companyMapper.toDto(company);
@@ -60,5 +72,21 @@ public class CompanyServiceImpl implements CompanyService {
             return companyMapper.toDto(company);
         }
         throw new ResourceNotFoundException("Company with id: " + id + " not found.");
+    }
+
+    @Override
+    public boolean deleteById(Long id) {
+        Company company = companyRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("Company with id: " + id + " not found."));
+        companyRepository.delete(company);
+        return true;
+    }
+
+    @Override
+    public boolean deleteAll() {
+        long countBefore = companyRepository.count();
+        companyRepository.deleteAll();
+        long countAfter = companyRepository.count();
+        return countAfter < countBefore;
     }
 }

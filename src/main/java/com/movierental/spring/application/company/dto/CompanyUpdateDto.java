@@ -1,4 +1,4 @@
-package com.movierental.spring.application.company.entity;
+package com.movierental.spring.application.company.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

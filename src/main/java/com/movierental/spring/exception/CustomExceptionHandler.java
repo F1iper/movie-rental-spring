@@ -40,6 +40,4 @@ public class CustomExceptionHandler {
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
-
 }
