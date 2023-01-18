@@ -1,8 +1,10 @@
 package com.movierental.spring.application.company.controller;
 
 import com.movierental.spring.application.company.dto.CompanyDto;
+import com.movierental.spring.application.company.entity.CompanyUpdateDto;
 import com.movierental.spring.application.company.service.CompanyService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +28,11 @@ public class CompanyController {
     }
 
     @PatchMapping("/{id}")
-    // TODO: 1/18/23 Validate the String or pass the body with part ?
-    public CompanyDto updateCompanyName(@PathVariable Long id, @Valid String name) {
-        return companyService.update(id, name);
+    public CompanyDto updateCompanyName(@PathVariable Long id, @RequestBody CompanyUpdateDto updateDto) {
+        return companyService.update(id, updateDto);
     }
+
+//    @DeleteMapping("/{id}")
+//    public
+
 }

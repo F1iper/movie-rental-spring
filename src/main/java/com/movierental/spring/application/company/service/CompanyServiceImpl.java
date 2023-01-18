@@ -2,8 +2,13 @@ package com.movierental.spring.application.company.service;
 
 import com.movierental.spring.application.company.dto.CompanyDto;
 import com.movierental.spring.application.company.entity.Company;
+import com.movierental.spring.application.company.entity.CompanyUpdateDto;
 import com.movierental.spring.application.company.mapper.CompanyMapper;
 import com.movierental.spring.application.company.repository.CompanyRepository;
+import com.movierental.spring.exception.EmptyValueException;
+import com.movierental.spring.exception.InvalidDataLengthException;
+import com.movierental.spring.exception.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +22,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
+    private final int MIN_NAME_LENGTH = 3;
+    private final int MAX_NAME_LENGTH = 40;
 
     @Override
     public List<CompanyDto> getAll() {
@@ -34,14 +41,24 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto update(Long id, String name) {
-        Optional<Company> byId = companyRepository.findById(id);
-        if (byId.isPresent()) {
-            Company company = byId.get();
-            company.setName(name);
-            companyRepository.save(company);
+    public CompanyDto update(Long id, CompanyUpdateDto companyUpdateDto) {
+        Optional<Company> companyOptional = companyRepository.findById(id);
+        if (companyOptional.isPresent() && companyUpdateDto != null) {
+            Company company = companyOptional.get();
+            if (companyUpdateDto.getName() == null) {
+                throw new EmptyValueException("Name cannot be empty.");
+            }
+            if (companyUpdateDto.getName().length() > MAX_NAME_LENGTH) {
+                throw new InvalidDataLengthException("Name length exceeds maximum of " + MAX_NAME_LENGTH + " characters.");
+            }
+            if (companyUpdateDto.getName().length() < MIN_NAME_LENGTH) {
+                throw new InvalidDataLengthException("Name length is less than minimum of " + MIN_NAME_LENGTH + " characters.");
+            }
+            companyMapper.toDto(company);
+            company.setName(companyUpdateDto.getName());
+            company = companyRepository.save(company);
             return companyMapper.toDto(company);
         }
-        return null;
+        throw new ResourceNotFoundException("Company with id: " + id + " not found.");
     }
 }
