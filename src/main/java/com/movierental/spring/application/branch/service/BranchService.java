@@ -9,6 +9,8 @@ public interface BranchService {
 
     List<BranchDto> findBranches();
 
+    BranchDto findById(Long id);
+
     BranchDto add(BranchDto dto);
 
     BranchDto update(Long id, BranchUpdateDto branchUpdateDto);
@@ -16,7 +18,4 @@ public interface BranchService {
     boolean deleteById(Long id);
 
     boolean deleteAll();
-
-    BranchDto findById(Long id);
-
 }

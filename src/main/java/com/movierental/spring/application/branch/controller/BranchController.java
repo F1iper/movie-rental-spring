@@ -1,4 +1,4 @@
-package com.movierental.spring.application.branch;
+package com.movierental.spring.application.branch.controller;
 
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.dto.BranchUpdateDto;

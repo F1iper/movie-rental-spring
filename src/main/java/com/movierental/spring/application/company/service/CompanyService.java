@@ -9,6 +9,8 @@ public interface CompanyService {
 
     List<CompanyDto> findCompanies();
 
+    CompanyDto findById(Long id);
+
     CompanyDto add(CompanyDto dto);
 
     CompanyDto update(Long id, CompanyUpdateDto companyUpdateDto);
@@ -17,5 +19,4 @@ public interface CompanyService {
 
     boolean deleteAll();
 
-    CompanyDto findById(Long id);
 }

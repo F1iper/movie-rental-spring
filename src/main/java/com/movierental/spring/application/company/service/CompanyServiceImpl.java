@@ -41,10 +41,10 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto add(CompanyDto dto) {
-        if (dto.getName().length() < 2) {
+        if (dto.getName().length() < MIN_NAME_LENGTH) {
             throw new InvalidDataLengthException("Company name must have a minimum length of 2 characters");
         }
-        if (dto.getName().length() > 40) {
+        if (dto.getName().length() > MAX_NAME_LENGTH) {
             throw new InvalidDataLengthException("Company name must have a maximum length of 40 characters");
         }
         Company company = companyMapper.toEntity(dto);

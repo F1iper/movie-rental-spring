@@ -19,8 +19,8 @@ public class CompanyController {
     private final CompanyService companyService;
 
     @GetMapping
-    public List<CompanyDto> findAllCompanies() {
-        return companyService.findCompanies();
+    public ResponseEntity<List<CompanyDto>> findAllCompanies() {
+        return new ResponseEntity<>(companyService.findCompanies(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -30,7 +30,7 @@ public class CompanyController {
 
     @PostMapping
     public ResponseEntity<CompanyDto> addCompany(@RequestBody @Valid CompanyDto dto) {
-        return new ResponseEntity<>(companyService.add(dto), HttpStatus.OK);
+        return new ResponseEntity<>(companyService.add(dto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")

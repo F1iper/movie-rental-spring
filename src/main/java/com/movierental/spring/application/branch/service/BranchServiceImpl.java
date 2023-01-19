@@ -1,11 +1,11 @@
 package com.movierental.spring.application.branch.service;
 
+import com.movierental.spring.application.actor.validator.Validator;
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.dto.BranchUpdateDto;
 import com.movierental.spring.application.branch.entity.Branch;
 import com.movierental.spring.application.branch.mapper.BranchMapper;
 import com.movierental.spring.application.branch.repository.BranchRepository;
-import com.movierental.spring.exception.EmptyValueException;
 import com.movierental.spring.exception.InvalidDataLengthException;
 import com.movierental.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +22,7 @@ public class BranchServiceImpl implements BranchService {
     private final BranchRepository branchRepository;
     private final BranchMapper branchMapper;
 
-    private final int MIN_NAME_LENGTH = 2;
-    private final int MAX_NAME_LENGTH = 40;
+    private final Validator validator;
 
     @Override
     public List<BranchDto> findBranches() {
@@ -53,20 +52,11 @@ public class BranchServiceImpl implements BranchService {
         return branchMapper.toDto(branch);
     }
 
-    @Override
     public BranchDto update(Long id, BranchUpdateDto branchUpdateDto) {
         Optional<Branch> branchOptional = branchRepository.findById(id);
         if (branchOptional.isPresent() && branchUpdateDto != null) {
             Branch branch = branchOptional.get();
-            if (branchUpdateDto.getName() == null) {
-                throw new EmptyValueException("Name cannot be empty.");
-            }
-            if (branchUpdateDto.getName().length() > MAX_NAME_LENGTH) {
-                throw new InvalidDataLengthException("Name length exceeds maximum of " + MAX_NAME_LENGTH + " characters.");
-            }
-            if (branchUpdateDto.getName().length() < MIN_NAME_LENGTH) {
-                throw new InvalidDataLengthException("Name length is less than minimum of " + MIN_NAME_LENGTH + " characters.");
-            }
+            validator.validateNameLength(branchUpdateDto.getName(), "Name");
             branchMapper.toDto(branch);
             branch.setName(branchUpdateDto.getName());
             branch = branchRepository.save(branch);
