@@ -1,6 +1,6 @@
 package com.movierental.spring.application.branch.service;
 
-import com.movierental.spring.application.actor.validator.CustomValidator;
+import com.movierental.spring.validator.CustomValidator;
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.dto.BranchUpdateDto;
 import com.movierental.spring.application.branch.entity.Branch;

@@ -1,6 +1,6 @@
 package com.movierental.spring.application.movie.service;
 
-import com.movierental.spring.application.actor.validator.CustomValidator;
+import com.movierental.spring.validator.CustomValidator;
 import com.movierental.spring.application.movie.dto.MovieDescriptionUpdateDto;
 import com.movierental.spring.application.movie.dto.MovieDto;
 import com.movierental.spring.application.movie.dto.MovieTitleUpdateDto;
@@ -76,9 +76,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public boolean deleteById(Long id) {
-        Movie company = movieRepository.findById(id).orElseThrow(() ->
+        Movie movie = movieRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Movie with id: " + id + " not found."));
-        movieRepository.delete(company);
+        movieRepository.delete(movie);
         return true;
     }
 

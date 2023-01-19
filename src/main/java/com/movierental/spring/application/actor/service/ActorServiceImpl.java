@@ -5,7 +5,7 @@ import com.movierental.spring.application.actor.dto.ActorUpdateDto;
 import com.movierental.spring.application.actor.entity.Actor;
 import com.movierental.spring.application.actor.mapper.ActorMapper;
 import com.movierental.spring.application.actor.repository.ActorRepository;
-import com.movierental.spring.application.actor.validator.CustomValidator;
+import com.movierental.spring.validator.CustomValidator;
 import com.movierental.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
