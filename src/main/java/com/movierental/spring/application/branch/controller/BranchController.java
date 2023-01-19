@@ -28,7 +28,6 @@ public class BranchController {
         return new ResponseEntity<>(branchService.findById(id), HttpStatus.OK);
     }
 
-    // TODO: 1/18/23 fix return type + remove stacktrace from exception
     @PostMapping
     public ResponseEntity<BranchDto> addBranch(@RequestBody @Valid BranchDto dto) {
         return new ResponseEntity<>(branchService.add(dto), HttpStatus.OK);
@@ -39,14 +38,12 @@ public class BranchController {
         return new ResponseEntity<>(branchService.update(id, updateDto), HttpStatus.OK);
     }
 
-    // TODO: 1/18/23 fix issue 500
     @DeleteMapping("/{id}")
     public ResponseEntity deleteBranchById(@PathVariable Long id) {
         branchService.deleteById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    // TODO: 1/18/23 insomnia throws 500 - fix it
     @DeleteMapping
     public ResponseEntity deleteAllBranches() {
         if (branchService.deleteAll()) {
@@ -55,5 +52,4 @@ public class BranchController {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
-
 }
