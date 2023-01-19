@@ -22,6 +22,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests().requestMatchers("/**").permitAll();
 
-        return http.build();
+        return http.cors().disable()
+                .csrf().disable()
+                .build();
     }
 }
