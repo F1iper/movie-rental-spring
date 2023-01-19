@@ -4,12 +4,12 @@ import com.movierental.spring.exception.InvalidDataLengthException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Validator {
+public class CustomValidator {
 
     private final int MIN_NAME_LENGTH = 2;
     private final int MAX_NAME_LENGTH = 40;
 
-    public void validateNameLength(String name, String messageInfo) {
+    public void validateValueLength(String name, String messageInfo) {
         if (name == null) {
             throw new InvalidDataLengthException(messageInfo + " cannot be null");
         }

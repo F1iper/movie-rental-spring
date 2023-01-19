@@ -5,7 +5,7 @@ import com.movierental.spring.application.actor.dto.ActorUpdateDto;
 import com.movierental.spring.application.actor.entity.Actor;
 import com.movierental.spring.application.actor.mapper.ActorMapper;
 import com.movierental.spring.application.actor.repository.ActorRepository;
-import com.movierental.spring.application.actor.validator.Validator;
+import com.movierental.spring.application.actor.validator.CustomValidator;
 import com.movierental.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ public class ActorServiceImpl implements ActorService {
 
     private final ActorRepository actorRepository;
     private final ActorMapper actorMapper;
-    private final Validator validator;
+    private final CustomValidator customValidator;
 
     @Override
     public List<ActorDto> findAll() {
@@ -39,8 +39,8 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public ActorDto add(ActorDto dto) {
-        validator.validateNameLength(dto.getFirstname(), "Actor firstname");
-        validator.validateNameLength(dto.getLastname(), "Actor lastname");
+        customValidator.validateValueLength(dto.getFirstname(), "Actor firstname");
+        customValidator.validateValueLength(dto.getLastname(), "Actor lastname");
         Actor actor = actorMapper.toEntity(dto);
         actorRepository.save(actor);
         return actorMapper.toDto(actor);
@@ -51,7 +51,7 @@ public class ActorServiceImpl implements ActorService {
         if (actorOptional.isPresent()) {
             Actor actor = actorOptional.get();
             if (newValue != null) {
-                validator.validateNameLength(newValue.getFirstname(), "firstname");
+                customValidator.validateValueLength(newValue.getFirstname(), "firstname");
                 actor.setFirstname(newValue.getFirstname());
             }
 
@@ -66,7 +66,7 @@ public class ActorServiceImpl implements ActorService {
         if (actorOptional.isPresent()) {
             Actor actor = actorOptional.get();
             if (newValue != null) {
-                validator.validateNameLength(newValue.getLastname(), "lastname");
+                customValidator.validateValueLength(newValue.getLastname(), "lastname");
                 actor.setLastname(newValue.getLastname());
             }
 

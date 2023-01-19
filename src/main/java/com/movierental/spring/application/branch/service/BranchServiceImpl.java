@@ -1,6 +1,6 @@
 package com.movierental.spring.application.branch.service;
 
-import com.movierental.spring.application.actor.validator.Validator;
+import com.movierental.spring.application.actor.validator.CustomValidator;
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.dto.BranchUpdateDto;
 import com.movierental.spring.application.branch.entity.Branch;
@@ -22,7 +22,7 @@ public class BranchServiceImpl implements BranchService {
     private final BranchRepository branchRepository;
     private final BranchMapper branchMapper;
 
-    private final Validator validator;
+    private final CustomValidator customValidator;
 
     @Override
     public List<BranchDto> findBranches() {
@@ -56,7 +56,7 @@ public class BranchServiceImpl implements BranchService {
         Optional<Branch> branchOptional = branchRepository.findById(id);
         if (branchOptional.isPresent() && branchUpdateDto != null) {
             Branch branch = branchOptional.get();
-            validator.validateNameLength(branchUpdateDto.getName(), "Name");
+            customValidator.validateValueLength(branchUpdateDto.getName(), "Name");
             branchMapper.toDto(branch);
             branch.setName(branchUpdateDto.getName());
             branch = branchRepository.save(branch);
