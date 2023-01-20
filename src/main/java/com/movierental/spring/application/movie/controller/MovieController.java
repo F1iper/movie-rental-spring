@@ -5,12 +5,12 @@ import com.movierental.spring.application.movie.dto.MovieDto;
 import com.movierental.spring.application.movie.dto.MovieTitleUpdateDto;
 import com.movierental.spring.application.movie.service.MovieService;
 import com.movierental.spring.base.controller.BaseController;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController

@@ -1,6 +1,5 @@
 package com.movierental.spring.application.actor.dto;
 
-import jakarta.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +13,8 @@ import org.hibernate.validator.constraints.Length;
 public class ActorUpdateDto {
 
     @Length(min = 3, max = 30)
-    @Nullable
     private String firstname;
 
     @Length(min = 3, max = 40)
-    @Nullable
     private String lastname;
 }

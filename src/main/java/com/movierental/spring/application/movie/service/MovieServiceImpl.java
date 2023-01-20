@@ -1,12 +1,12 @@
 package com.movierental.spring.application.movie.service;
 
-import com.movierental.spring.base.validator.CustomValidator;
 import com.movierental.spring.application.movie.dto.MovieDescriptionUpdateDto;
 import com.movierental.spring.application.movie.dto.MovieDto;
 import com.movierental.spring.application.movie.dto.MovieTitleUpdateDto;
 import com.movierental.spring.application.movie.entity.Movie;
 import com.movierental.spring.application.movie.mapper.MovieMapper;
 import com.movierental.spring.application.movie.repository.MovieRepository;
+import com.movierental.spring.base.validator.CustomValidator;
 import com.movierental.spring.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
