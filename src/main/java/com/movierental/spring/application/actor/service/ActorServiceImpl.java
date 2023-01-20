@@ -5,8 +5,8 @@ import com.movierental.spring.application.actor.dto.ActorUpdateDto;
 import com.movierental.spring.application.actor.entity.Actor;
 import com.movierental.spring.application.actor.mapper.ActorMapper;
 import com.movierental.spring.application.actor.repository.ActorRepository;
-import com.movierental.spring.validator.CustomValidator;
 import com.movierental.spring.exception.ResourceNotFoundException;
+import com.movierental.spring.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class ActorServiceImpl implements ActorService {
         if (actorOptional.isPresent()) {
             Actor actor = actorOptional.get();
             if (newValue != null) {
-                customValidator.validateValueLength(newValue.getFirstname(), "firstname");
+                customValidator.validateValueLength(newValue.getFirstname(), "Firstname");
                 actor.setFirstname(newValue.getFirstname());
             }
 
@@ -66,7 +66,7 @@ public class ActorServiceImpl implements ActorService {
         if (actorOptional.isPresent()) {
             Actor actor = actorOptional.get();
             if (newValue != null) {
-                customValidator.validateValueLength(newValue.getLastname(), "lastname");
+                customValidator.validateValueLength(newValue.getLastname(), "Lastname");
                 actor.setLastname(newValue.getLastname());
             }
 

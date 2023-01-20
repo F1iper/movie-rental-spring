@@ -1,13 +1,12 @@
 package com.movierental.spring.application.branch.service;
 
-import com.movierental.spring.validator.CustomValidator;
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.dto.BranchUpdateDto;
 import com.movierental.spring.application.branch.entity.Branch;
 import com.movierental.spring.application.branch.mapper.BranchMapper;
 import com.movierental.spring.application.branch.repository.BranchRepository;
-import com.movierental.spring.exception.InvalidDataLengthException;
 import com.movierental.spring.exception.ResourceNotFoundException;
+import com.movierental.spring.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class BranchServiceImpl implements BranchService {
 
     private final BranchRepository branchRepository;
     private final BranchMapper branchMapper;
-
     private final CustomValidator customValidator;
 
     @Override
@@ -41,12 +39,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public BranchDto add(BranchDto dto) {
-        if (dto.getName().length() < 2) {
-            throw new InvalidDataLengthException("Branch name must have a minimum length of 2 characters");
-        }
-        if (dto.getName().length() > 40) {
-            throw new InvalidDataLengthException("Branch name must have a maximum length of 40 characters");
-        }
+        customValidator.validateValueLength(dto.getName(), "Branch name");
         Branch branch = branchMapper.toEntity(dto);
         branchRepository.save(branch);
         return branchMapper.toDto(branch);
@@ -56,7 +49,8 @@ public class BranchServiceImpl implements BranchService {
         Optional<Branch> branchOptional = branchRepository.findById(id);
         if (branchOptional.isPresent() && branchUpdateDto != null) {
             Branch branch = branchOptional.get();
-            customValidator.validateValueLength(branchUpdateDto.getName(), "Name");
+
+            customValidator.validateValueLength(branchUpdateDto.getName(), "Branch name");
             branchMapper.toDto(branch);
             branch.setName(branchUpdateDto.getName());
             branch = branchRepository.save(branch);
