@@ -2,7 +2,7 @@ package com.movierental.spring.application.branch.mapper;
 
 import com.movierental.spring.application.branch.dto.BranchDto;
 import com.movierental.spring.application.branch.entity.Branch;
-import com.movierental.spring.mapper.BaseMapper;
+import com.movierental.spring.base.mapper.BaseMapper;
 import org.springframework.stereotype.Service;
 
 @Service

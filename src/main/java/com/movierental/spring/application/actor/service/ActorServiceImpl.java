@@ -6,7 +6,7 @@ import com.movierental.spring.application.actor.entity.Actor;
 import com.movierental.spring.application.actor.mapper.ActorMapper;
 import com.movierental.spring.application.actor.repository.ActorRepository;
 import com.movierental.spring.exception.ResourceNotFoundException;
-import com.movierental.spring.validator.CustomValidator;
+import com.movierental.spring.base.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,14 +31,14 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public ActorDto findById(Long id) {
+    public ActorDto findActorById(Long id) {
         Actor actor = actorRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Actor with id: " + id + " does not exist."));
         return actorMapper.toDto(actor);
     }
 
     @Override
-    public ActorDto add(ActorDto dto) {
+    public ActorDto createActor(ActorDto dto) {
         customValidator.validateValueLength(dto.getFirstname(), "Actor firstname");
         customValidator.validateValueLength(dto.getLastname(), "Actor lastname");
         Actor actor = actorMapper.toEntity(dto);
@@ -77,15 +77,14 @@ public class ActorServiceImpl implements ActorService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public void deleteActorById(Long id) {
         Actor actor = actorRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Actor with id: " + id + " not found."));
         actorRepository.delete(actor);
-        return true;
     }
 
     @Override
-    public boolean deleteAll() {
+    public boolean deleteAllActors() {
         long countBefore = actorRepository.count();
         actorRepository.deleteAll();
         long countAfter = actorRepository.count();

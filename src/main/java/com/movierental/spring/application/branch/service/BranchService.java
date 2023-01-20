@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface BranchService {
 
-    List<BranchDto> findBranches();
+    List<BranchDto> findAllBranches();
 
-    BranchDto findById(Long id);
+    BranchDto findBranchById(Long id);
 
-    BranchDto add(BranchDto dto);
+    BranchDto createBranch(BranchDto dto);
 
-    BranchDto update(Long id, BranchUpdateDto branchUpdateDto);
+    BranchDto updateName(Long id, BranchUpdateDto branchUpdateDto);
 
-    boolean deleteById(Long id);
+    void deleteBranchById(Long id);
 
-    boolean deleteAll();
+    boolean deleteAllBranches();
 }

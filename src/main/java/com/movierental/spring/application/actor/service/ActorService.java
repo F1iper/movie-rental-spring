@@ -9,15 +9,15 @@ public interface ActorService {
 
     List<ActorDto> findAll();
 
-    ActorDto findById(Long id);
+    ActorDto findActorById(Long id);
 
-    ActorDto add(ActorDto dto);
+    ActorDto createActor(ActorDto dto);
 
     ActorDto updateFirstname(Long id, ActorUpdateDto newValue);
 
     ActorDto updateLastname(Long id, ActorUpdateDto newValue);
 
-    boolean deleteById(Long id);
+    void deleteActorById(Long id);
 
-    boolean deleteAll();
+    boolean deleteAllActors();
 }

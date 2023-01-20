@@ -1,4 +1,4 @@
-package com.movierental.spring.validator;
+package com.movierental.spring.base.validator;
 
 import com.movierental.spring.exception.InvalidDataLengthException;
 import org.springframework.stereotype.Service;

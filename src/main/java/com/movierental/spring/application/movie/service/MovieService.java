@@ -8,17 +8,17 @@ import java.util.List;
 
 public interface MovieService {
 
-    List<MovieDto> findCompanies();
+    List<MovieDto> findAllMovies();
 
-    MovieDto findById(Long id);
+    MovieDto findMovieById(Long id);
 
-    MovieDto add(MovieDto dto);
+    MovieDto createMovie(MovieDto dto);
 
     MovieDto updateTitle(Long id, MovieTitleUpdateDto movieUpdateDto);
 
-    boolean deleteById(Long id);
+    void deleteMovieById(Long id);
 
-    boolean deleteAll();
+    boolean deleteAllMovies();
 
     MovieDto updateDescription(Long id, MovieDescriptionUpdateDto updateDto);
 }

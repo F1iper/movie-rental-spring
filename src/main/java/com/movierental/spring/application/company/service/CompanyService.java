@@ -7,16 +7,16 @@ import java.util.List;
 
 public interface CompanyService {
 
-    List<CompanyDto> findCompanies();
+    List<CompanyDto> findAllCompanies();
 
-    CompanyDto findById(Long id);
+    CompanyDto findCompanyById(Long id);
 
-    CompanyDto add(CompanyDto dto);
+    CompanyDto createCompany(CompanyDto dto);
 
-    CompanyDto update(Long id, CompanyUpdateDto companyUpdateDto);
+    CompanyDto updateCompanyName(Long id, CompanyUpdateDto companyUpdateDto);
 
-    boolean deleteById(Long id);
+    void deleteCompanyById(Long id);
 
-    boolean deleteAll();
+    boolean deleteAllCompanies();
 
 }

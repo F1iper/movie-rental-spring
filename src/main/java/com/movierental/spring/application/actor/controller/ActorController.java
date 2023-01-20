@@ -3,6 +3,7 @@ package com.movierental.spring.application.actor.controller;
 import com.movierental.spring.application.actor.dto.ActorDto;
 import com.movierental.spring.application.actor.dto.ActorUpdateDto;
 import com.movierental.spring.application.actor.service.ActorService;
+import com.movierental.spring.base.controller.BaseController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,23 +14,26 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/actors")
 @RequiredArgsConstructor
-public class ActorController {
+public class ActorController implements BaseController<ActorDto> {
 
     private final ActorService actorService;
 
     @GetMapping
-    public ResponseEntity<List<ActorDto>> findAllActors() {
+    @Override
+    public ResponseEntity<List<ActorDto>> findAll() {
         return new ResponseEntity<>(actorService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ActorDto> findActorById(@PathVariable Long id) {
-        return new ResponseEntity<>(actorService.findById(id), HttpStatus.OK);
+    @Override
+    public ResponseEntity<ActorDto> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(actorService.findActorById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<ActorDto> addActor(@RequestBody ActorDto dto) {
-        return new ResponseEntity<>(actorService.add(dto), HttpStatus.CREATED);
+    @Override
+    public ResponseEntity<ActorDto> create(@RequestBody ActorDto dto) {
+        return new ResponseEntity<>(actorService.createActor(dto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}/firstname")
@@ -43,14 +47,17 @@ public class ActorController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteActorById(@PathVariable Long id) {
-        actorService.deleteById(id);
+    @Override
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        actorService.deleteActorById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
+
     @DeleteMapping
-    public ResponseEntity deleteAllActors() {
-        if (actorService.deleteAll()) {
+    @Override
+    public ResponseEntity deleteAll() {
+        if (actorService.deleteAllActors()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);

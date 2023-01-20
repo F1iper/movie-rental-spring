@@ -6,7 +6,7 @@ import com.movierental.spring.application.branch.entity.Branch;
 import com.movierental.spring.application.branch.mapper.BranchMapper;
 import com.movierental.spring.application.branch.repository.BranchRepository;
 import com.movierental.spring.exception.ResourceNotFoundException;
-import com.movierental.spring.validator.CustomValidator;
+import com.movierental.spring.base.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class BranchServiceImpl implements BranchService {
     private final CustomValidator customValidator;
 
     @Override
-    public List<BranchDto> findBranches() {
+    public List<BranchDto> findAllBranches() {
         List<Branch> branches = branchRepository.findAll();
         return branches.stream()
                 .map(branch -> new BranchDto(branch.getBranchId(), branch.getName()))
@@ -31,21 +31,21 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public BranchDto findById(Long id) {
+    public BranchDto findBranchById(Long id) {
         Branch branch = branchRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Branch with id: " + id + " does not exist."));
         return branchMapper.toDto(branch);
     }
 
     @Override
-    public BranchDto add(BranchDto dto) {
+    public BranchDto createBranch(BranchDto dto) {
         customValidator.validateValueLength(dto.getName(), "Branch name");
         Branch branch = branchMapper.toEntity(dto);
         branchRepository.save(branch);
         return branchMapper.toDto(branch);
     }
 
-    public BranchDto update(Long id, BranchUpdateDto branchUpdateDto) {
+    public BranchDto updateName(Long id, BranchUpdateDto branchUpdateDto) {
         Optional<Branch> branchOptional = branchRepository.findById(id);
         if (branchOptional.isPresent() && branchUpdateDto != null) {
             Branch branch = branchOptional.get();
@@ -60,15 +60,14 @@ public class BranchServiceImpl implements BranchService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public void deleteBranchById(Long id) {
         Branch branch = branchRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Branch with id: " + id + " not found."));
         branchRepository.delete(branch);
-        return true;
     }
 
     @Override
-    public boolean deleteAll() {
+    public boolean deleteAllBranches() {
         long countBefore = branchRepository.count();
         branchRepository.deleteAll();
         long countAfter = branchRepository.count();

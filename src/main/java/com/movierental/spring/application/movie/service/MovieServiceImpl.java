@@ -1,6 +1,6 @@
 package com.movierental.spring.application.movie.service;
 
-import com.movierental.spring.validator.CustomValidator;
+import com.movierental.spring.base.validator.CustomValidator;
 import com.movierental.spring.application.movie.dto.MovieDescriptionUpdateDto;
 import com.movierental.spring.application.movie.dto.MovieDto;
 import com.movierental.spring.application.movie.dto.MovieTitleUpdateDto;
@@ -24,7 +24,7 @@ public class MovieServiceImpl implements MovieService {
     private final CustomValidator customValidator;
 
     @Override
-    public List<MovieDto> findCompanies() {
+    public List<MovieDto> findAllMovies() {
         List<Movie> movies = movieRepository.findAll();
         return movies.stream()
                 .map(movieMapper::toDto)
@@ -32,14 +32,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public MovieDto findById(Long id) {
+    public MovieDto findMovieById(Long id) {
         Movie company = movieRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Movie with id: " + id + " does not exist."));
         return movieMapper.toDto(company);
     }
 
     @Override
-    public MovieDto add(MovieDto dto) {
+    public MovieDto createMovie(MovieDto dto) {
         Movie company = movieMapper.toEntity(dto);
         movieRepository.save(company);
         return movieMapper.toDto(company);
@@ -75,15 +75,14 @@ public class MovieServiceImpl implements MovieService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public void deleteMovieById(Long id) {
         Movie movie = movieRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Movie with id: " + id + " not found."));
         movieRepository.delete(movie);
-        return true;
     }
 
     @Override
-    public boolean deleteAll() {
+    public boolean deleteAllMovies() {
         long countBefore = movieRepository.count();
         movieRepository.deleteAll();
         long countAfter = movieRepository.count();

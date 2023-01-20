@@ -6,7 +6,7 @@ import com.movierental.spring.application.company.entity.Company;
 import com.movierental.spring.application.company.mapper.CompanyMapper;
 import com.movierental.spring.application.company.repository.CompanyRepository;
 import com.movierental.spring.exception.ResourceNotFoundException;
-import com.movierental.spring.validator.CustomValidator;
+import com.movierental.spring.base.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class CompanyServiceImpl implements CompanyService {
     private final CustomValidator validator;
 
     @Override
-    public List<CompanyDto> findCompanies() {
+    public List<CompanyDto> findAllCompanies() {
         List<Company> companies = companyRepository.findAll();
         return companies.stream()
                 .map(company -> new CompanyDto(company.getCompanyId(), company.getName()))
@@ -31,14 +31,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto findById(Long id) {
+    public CompanyDto findCompanyById(Long id) {
         Company company = companyRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Company with id: " + id + " does not exist."));
         return companyMapper.toDto(company);
     }
 
     @Override
-    public CompanyDto add(CompanyDto dto) {
+    public CompanyDto createCompany(CompanyDto dto) {
         validator.validateValueLength(dto.getName(), "Company name");
         Company company = companyMapper.toEntity(dto);
         companyRepository.save(company);
@@ -46,7 +46,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public CompanyDto update(Long id, CompanyUpdateDto companyUpdateDto) {
+    public CompanyDto updateCompanyName(Long id, CompanyUpdateDto companyUpdateDto) {
         Optional<Company> companyOptional = companyRepository.findById(id);
         if (companyOptional.isPresent() && companyUpdateDto != null) {
             Company company = companyOptional.get();
@@ -62,15 +62,14 @@ public class CompanyServiceImpl implements CompanyService {
     }
 
     @Override
-    public boolean deleteById(Long id) {
+    public void deleteCompanyById(Long id) {
         Company company = companyRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Company with id: " + id + " not found."));
         companyRepository.delete(company);
-        return true;
     }
 
     @Override
-    public boolean deleteAll() {
+    public boolean deleteAllCompanies() {
         long countBefore = companyRepository.count();
         companyRepository.deleteAll();
         long countAfter = companyRepository.count();

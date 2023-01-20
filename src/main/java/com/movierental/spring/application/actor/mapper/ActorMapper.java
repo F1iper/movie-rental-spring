@@ -2,7 +2,7 @@ package com.movierental.spring.application.actor.mapper;
 
 import com.movierental.spring.application.actor.dto.ActorDto;
 import com.movierental.spring.application.actor.entity.Actor;
-import com.movierental.spring.mapper.BaseMapper;
+import com.movierental.spring.base.mapper.BaseMapper;
 import org.springframework.stereotype.Service;
 
 @Service

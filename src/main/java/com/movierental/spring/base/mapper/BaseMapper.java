@@ -1,4 +1,4 @@
-package com.movierental.spring.mapper;
+package com.movierental.spring.base.mapper;
 
 public abstract class BaseMapper<T, K> {
 

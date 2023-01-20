@@ -3,6 +3,7 @@ package com.movierental.spring.application.company.controller;
 import com.movierental.spring.application.company.dto.CompanyDto;
 import com.movierental.spring.application.company.dto.CompanyUpdateDto;
 import com.movierental.spring.application.company.service.CompanyService;
+import com.movierental.spring.base.controller.BaseController;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,39 +15,44 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/companies")
 @RequiredArgsConstructor
-public class CompanyController {
+public class CompanyController implements BaseController<CompanyDto> {
 
     private final CompanyService companyService;
 
     @GetMapping
-    public ResponseEntity<List<CompanyDto>> findAllCompanies() {
-        return new ResponseEntity<>(companyService.findCompanies(), HttpStatus.OK);
+    @Override
+    public ResponseEntity<List<CompanyDto>> findAll() {
+        return new ResponseEntity<>(companyService.findAllCompanies(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CompanyDto> findCompanyById(@PathVariable Long id) {
-        return new ResponseEntity<>(companyService.findById(id), HttpStatus.OK);
+    @Override
+    public ResponseEntity<CompanyDto> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(companyService.findCompanyById(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CompanyDto> addCompany(@RequestBody @Valid CompanyDto dto) {
-        return new ResponseEntity<>(companyService.add(dto), HttpStatus.CREATED);
+    @Override
+    public ResponseEntity<CompanyDto> create(@RequestBody @Valid CompanyDto dto) {
+        return new ResponseEntity<>(companyService.createCompany(dto), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CompanyDto> updateCompanyName(@PathVariable Long id, @RequestBody CompanyUpdateDto updateDto) {
-        return new ResponseEntity<>(companyService.update(id, updateDto), HttpStatus.OK);
+    public ResponseEntity<CompanyDto> update(@PathVariable Long id, @RequestBody CompanyUpdateDto updateDto) {
+        return new ResponseEntity<>(companyService.updateCompanyName(id, updateDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity deleteCompanyById(@PathVariable Long id) {
-        companyService.deleteById(id);
+    @Override
+    public ResponseEntity deleteById(@PathVariable Long id) {
+        companyService.deleteCompanyById(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
-    public ResponseEntity deleteAllCompanies() {
-        if (companyService.deleteAll()) {
+    @Override
+    public ResponseEntity deleteAll() {
+        if (companyService.deleteAllCompanies()) {
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
