@@ -34,6 +34,9 @@ Currently the application allows these operations:
 ## :bell: Testing
 - Tests are not implemented yet!
 
+## :seedling: API documentation
+[Open API docs](http://localhost:8080/swagger-ui/index.html#/) (currently working locally)
+
 ## :hammer: Tools and Libraries
 - [Java 17](https://www.oracle.com/java/technologies/javase-downloads.html)
 - [Spring Boot](https://spring.io/projects/spring-boot)
