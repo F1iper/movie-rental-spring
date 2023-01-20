@@ -36,6 +36,7 @@ Currently the application allows these operations:
 
 ## :hammer: Tools and Libraries
 - [Java 17](https://www.oracle.com/java/technologies/javase-downloads.html)
+- [Spring Boot](https://spring.io/projects/spring-boot)
 - [MySQL](https://www.mysql.com/)
 - [Hibernate](https://hibernate.org/)
 - [Lombok](https://projectlombok.org/)
