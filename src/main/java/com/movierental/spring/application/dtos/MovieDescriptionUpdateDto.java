@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -14,6 +16,7 @@ public class MovieDescriptionUpdateDto {
 
     private Long id;
 
-    @Length(min = 10, max = 255)
+    @NotEmpty(message = "cannot be empty.")
+    @Size(min = 10, max = 255, message = "must be between 10 and 255 characters.")
     private String description;
 }

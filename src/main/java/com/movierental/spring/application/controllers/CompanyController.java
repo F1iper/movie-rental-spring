@@ -38,7 +38,7 @@ public class CompanyController implements BaseController<CompanyDto> {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CompanyDto> update(@PathVariable Long id, @RequestBody CompanyUpdateDto updateDto) {
+    public ResponseEntity<CompanyDto> update(@PathVariable Long id, @RequestBody @Valid CompanyUpdateDto updateDto) {
         return new ResponseEntity<>(companyService.updateCompanyName(id, updateDto), HttpStatus.OK);
     }
 

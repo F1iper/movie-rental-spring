@@ -7,7 +7,6 @@ import com.movierental.spring.application.mappers.CompanyMapper;
 import com.movierental.spring.application.repositories.CompanyRepository;
 import com.movierental.spring.application.services.CompanyService;
 import com.movierental.spring.exceptions.ResourceNotFoundException;
-import com.movierental.spring.validators.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
-    private final CustomValidator validator;
 
     @Override
     public List<CompanyDto> findAllCompanies() {
@@ -40,9 +38,9 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public CompanyDto createCompany(CompanyDto dto) {
-        validator.validateValueLength(dto.getName(), "Company name");
         Company company = companyMapper.toEntity(dto);
-        companyRepository.save(company);
+        Company saved = companyRepository.save(company);
+        company.setCompanyId(saved.getCompanyId());
         return companyMapper.toDto(company);
     }
 
@@ -51,8 +49,6 @@ public class CompanyServiceImpl implements CompanyService {
         Optional<Company> companyOptional = companyRepository.findById(id);
         if (companyOptional.isPresent() && companyUpdateDto != null) {
             Company company = companyOptional.get();
-
-            validator.validateValueLength(companyUpdateDto.getName(), "Company name");
 
             companyMapper.toDto(company);
             company.setName(companyUpdateDto.getName());

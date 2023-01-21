@@ -4,11 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -18,26 +15,34 @@ public class MovieDto {
 
     private Long movieId;
 
-    @Length(min = 3, max = 40)
+    @NotEmpty(message = "cannot be empty.")
+    @Size(min = 2, max = 30, message = "must be between 2 and 30 characters.")
     private String title;
 
-    @Length(min = 10, max = 255)
+    @NotEmpty(message = "cannot be empty.")
+    @Size(min = 10, max = 255, message = "must be between 2 and 30 characters.")
     private String description;
 
-    @Min(1887)
+    @NotEmpty(message = "cannot be empty.")
+    @Min(value = 1887, message = "cannot be before 1887.")
+    @Max(value = 2030, message = "cannot be after 2030.")
     private int releaseYear;
 
-    @Positive
+    @Min(value = 10, message = "cannot be shorter than 10")
+    @Max(value = 240, message = "cannot be longer than 240")
+    @NotEmpty(message = "cannot be empty.")
     private int length;
 
     private Long languageId;
 
-    @PositiveOrZero
+    @NotEmpty(message = "cannot be empty.")
+    @DecimalMin(value = "0.0", message = "cannot be lower than 0.0")
     private double cost;
 
     private Long statusId;
 
-    @PositiveOrZero
+    @NotEmpty(message = "cannot be empty.")
+    @DecimalMin(value = "0.0", message = "cannot be lower than 0.0")
     private double rentalRate;
 
     private Long movieTypeId;

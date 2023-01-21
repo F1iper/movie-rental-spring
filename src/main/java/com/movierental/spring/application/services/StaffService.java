@@ -1,6 +1,7 @@
 package com.movierental.spring.application.services;
 
 import com.movierental.spring.application.dtos.StaffDto;
+import com.movierental.spring.application.dtos.StaffUpdateSalaryDto;
 
 import java.util.List;
 
@@ -14,4 +15,6 @@ public interface StaffService {
     void deleteStaffById(Long id);
 
     boolean deleteAllStaffMembers();
+
+    StaffDto updateStaffSalary(Long id, StaffUpdateSalaryDto dto);
 }

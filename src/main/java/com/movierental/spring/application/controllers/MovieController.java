@@ -38,12 +38,12 @@ public class MovieController implements BaseController<MovieDto> {
     }
 
     @PatchMapping("/{id}/title")
-    public ResponseEntity<MovieDto> updateMovieTitle(@PathVariable Long id, @RequestBody MovieTitleUpdateDto updateDto) {
+    public ResponseEntity<MovieDto> updateMovieTitle(@PathVariable Long id, @RequestBody @Valid MovieTitleUpdateDto updateDto) {
         return new ResponseEntity<>(movieService.updateTitle(id, updateDto), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}/description")
-    public ResponseEntity<MovieDto> updateMovieDescription(@PathVariable Long id, @RequestBody MovieDescriptionUpdateDto updateDto) {
+    public ResponseEntity<MovieDto> updateMovieDescription(@PathVariable Long id, @RequestBody @Valid MovieDescriptionUpdateDto updateDto) {
         return new ResponseEntity<>(movieService.updateDescription(id, updateDto), HttpStatus.OK);
     }
 

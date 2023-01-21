@@ -38,12 +38,12 @@ public class ActorController implements BaseController<ActorDto> {
     }
 
     @PatchMapping("/{id}/firstname")
-    public ResponseEntity<ActorDto> updateActorFirstname(@PathVariable Long id, @RequestBody ActorUpdateDto newValue) {
+    public ResponseEntity<ActorDto> updateActorFirstname(@PathVariable Long id, @RequestBody @Valid ActorUpdateDto newValue) {
         return new ResponseEntity<>(actorService.updateFirstname(id, newValue), HttpStatus.ACCEPTED);
     }
 
     @PatchMapping("/{id}/lastname")
-    public ResponseEntity<ActorDto> updateActorLastname(@PathVariable Long id, @RequestBody ActorUpdateDto newValue) {
+    public ResponseEntity<ActorDto> updateActorLastname(@PathVariable Long id, @RequestBody @Valid ActorUpdateDto newValue) {
         return new ResponseEntity<>(actorService.updateLastname(id, newValue), HttpStatus.ACCEPTED);
     }
 

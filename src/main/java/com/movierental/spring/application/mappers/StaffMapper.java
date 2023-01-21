@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class StaffMapper extends BaseMapper<StaffDto, Staff> {
 
-
     @Override
     public StaffDto toDto(Staff entity) {
         StaffDto dto = new StaffDto();

@@ -16,11 +16,11 @@ public class ActorDto {
 
     private Long id;
 
-    @NotEmpty(message = " cannot be empty.")
-    @Size(min = 2, max = 30, message = " must be between 2 and 30 characters.")
+    @NotEmpty(message = "cannot be empty.")
+    @Size(min = 2, max = 30, message = "must be between 2 and 30 characters.")
     private String firstname;
 
-    @NotEmpty(message = " cannot be empty.")
-    @Size(min = 2, max = 30, message = " must be between 2 and 30 characters.")
+    @NotEmpty(message = "cannot be empty.")
+    @Size(min = 2, max = 30, message = "must be between 2 and 30 characters.")
     private String lastname;
 }

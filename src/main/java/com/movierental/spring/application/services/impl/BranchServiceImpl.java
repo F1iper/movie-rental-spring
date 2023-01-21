@@ -7,7 +7,6 @@ import com.movierental.spring.application.mappers.BranchMapper;
 import com.movierental.spring.application.repositories.BranchRepository;
 import com.movierental.spring.application.services.BranchService;
 import com.movierental.spring.exceptions.ResourceNotFoundException;
-import com.movierental.spring.validators.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +20,6 @@ public class BranchServiceImpl implements BranchService {
 
     private final BranchRepository branchRepository;
     private final BranchMapper branchMapper;
-    private final CustomValidator customValidator;
 
     @Override
     public List<BranchDto> findAllBranches() {
@@ -40,10 +38,9 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public BranchDto createBranch(BranchDto dto) {
-        // TODO: 1/21/23 get rid of custom validation + show real object id from DB (staff as example
-        customValidator.validateValueLength(dto.getName(), "Branch name");
         Branch branch = branchMapper.toEntity(dto);
-        branchRepository.save(branch);
+        Branch saved = branchRepository.save(branch);
+        branch.setBranchId(saved.getBranchId());
         return branchMapper.toDto(branch);
     }
 
@@ -52,7 +49,6 @@ public class BranchServiceImpl implements BranchService {
         if (branchOptional.isPresent() && branchUpdateDto != null) {
             Branch branch = branchOptional.get();
 
-            customValidator.validateValueLength(branchUpdateDto.getName(), "Branch name");
             branchMapper.toDto(branch);
             branch.setName(branchUpdateDto.getName());
             branch = branchRepository.save(branch);

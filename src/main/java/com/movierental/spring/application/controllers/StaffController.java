@@ -2,6 +2,7 @@ package com.movierental.spring.application.controllers;
 
 import com.movierental.spring.application.controllers.controller.BaseController;
 import com.movierental.spring.application.dtos.StaffDto;
+import com.movierental.spring.application.dtos.StaffUpdateSalaryDto;
 import com.movierental.spring.application.services.StaffService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,6 +35,11 @@ public class StaffController implements BaseController<StaffDto> {
     @Override
     public ResponseEntity<StaffDto> create(@RequestBody @Valid StaffDto dto) {
         return new ResponseEntity<>(staffService.createStaff(dto), HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<StaffDto> updateSalary(@PathVariable Long id, @RequestBody @Valid StaffUpdateSalaryDto dto) {
+        return new ResponseEntity<>(staffService.updateStaffSalary(id, dto), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

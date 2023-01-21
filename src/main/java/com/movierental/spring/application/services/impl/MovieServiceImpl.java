@@ -7,7 +7,6 @@ import com.movierental.spring.application.entities.Movie;
 import com.movierental.spring.application.mappers.MovieMapper;
 import com.movierental.spring.application.repositories.MovieRepository;
 import com.movierental.spring.application.services.MovieService;
-import com.movierental.spring.validators.CustomValidator;
 import com.movierental.spring.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,6 @@ public class MovieServiceImpl implements MovieService {
 
     private final MovieRepository movieRepository;
     private final MovieMapper movieMapper;
-    private final CustomValidator customValidator;
 
     @Override
     public List<MovieDto> findAllMovies() {
@@ -42,7 +40,8 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public MovieDto createMovie(MovieDto dto) {
         Movie movie = movieMapper.toEntity(dto);
-        movieRepository.save(movie);
+        Movie saved = movieRepository.save(movie);
+        movie.setMovieId(saved.getMovieId());
         return movieMapper.toDto(movie);
     }
 
@@ -51,7 +50,6 @@ public class MovieServiceImpl implements MovieService {
         Optional<Movie> movieOptional = movieRepository.findById(id);
         if (movieOptional.isPresent() && movieUpdateDto != null) {
             Movie movie = movieOptional.get();
-            customValidator.validateValueLength(movieUpdateDto.getTitle(), "Title");
             movieMapper.toDto(movie);
             movie.setTitle(movieUpdateDto.getTitle());
             movie = movieRepository.save(movie);
@@ -65,7 +63,6 @@ public class MovieServiceImpl implements MovieService {
         Optional<Movie> movieOptional = movieRepository.findById(id);
         if (movieOptional.isPresent() && movieUpdateDto != null) {
             Movie movie = movieOptional.get();
-            customValidator.validateValueLength(movieUpdateDto.getDescription(), "Description");
             movieMapper.toDto(movie);
 
             movie.setDescription(movieUpdateDto.getDescription());

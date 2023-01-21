@@ -6,15 +6,20 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.NotEmpty;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActorUpdateDto {
 
-    @Length(min = 3, max = 30)
+    @NotEmpty(message = "cannot be empty.")
+    @Length(min = 2, max = 30, message = "must be between 2 and 30 characters.")
     private String firstname;
 
-    @Length(min = 3, max = 40)
+    @NotEmpty(message = "cannot be empty.")
+    @Length(min = 2, max = 30, message = "must be between 2 and 40 characters.")
     private String lastname;
+
 }
