@@ -1,6 +1,6 @@
 package com.movierental.spring.application.controllers;
 
-import com.movierental.spring.application.controllers.controller.BaseController;
+import com.movierental.spring.application.controllers.base.BaseController;
 import com.movierental.spring.application.dtos.StaffDto;
 import com.movierental.spring.application.dtos.StaffUpdateSalaryDto;
 import com.movierental.spring.application.services.StaffService;

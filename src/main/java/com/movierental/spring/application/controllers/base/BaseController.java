@@ -1,4 +1,4 @@
-package com.movierental.spring.application.controllers.controller;
+package com.movierental.spring.application.controllers.base;
 
 import org.springframework.http.ResponseEntity;
 

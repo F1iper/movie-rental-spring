@@ -3,7 +3,7 @@ package com.movierental.spring.application.controllers;
 import com.movierental.spring.application.dtos.CompanyDto;
 import com.movierental.spring.application.dtos.CompanyUpdateDto;
 import com.movierental.spring.application.services.CompanyService;
-import com.movierental.spring.application.controllers.controller.BaseController;
+import com.movierental.spring.application.controllers.base.BaseController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

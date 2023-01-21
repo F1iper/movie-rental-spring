@@ -4,7 +4,7 @@ import com.movierental.spring.application.dtos.MovieDescriptionUpdateDto;
 import com.movierental.spring.application.dtos.MovieDto;
 import com.movierental.spring.application.dtos.MovieTitleUpdateDto;
 import com.movierental.spring.application.services.MovieService;
-import com.movierental.spring.application.controllers.controller.BaseController;
+import com.movierental.spring.application.controllers.base.BaseController;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
