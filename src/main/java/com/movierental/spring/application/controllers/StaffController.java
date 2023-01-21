@@ -37,7 +37,7 @@ public class StaffController implements BaseController<StaffDto> {
         return new ResponseEntity<>(staffService.createStaff(dto), HttpStatus.CREATED);
     }
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/{id}/salary")
     public ResponseEntity<StaffDto> updateSalary(@PathVariable Long id, @RequestBody @Valid StaffUpdateSalaryDto dto) {
         return new ResponseEntity<>(staffService.updateStaffSalary(id, dto), HttpStatus.OK);
     }
