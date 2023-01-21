@@ -37,6 +37,8 @@ Currently the application allows these operations:
 ## :seedling: API documentation
 [Open API docs](http://localhost:8080/swagger-ui/index.html#/) (currently working locally)
 
+![](OpenAPIexample.png)
+
 ## :hammer: Tools and Libraries
 - [Java 17](https://www.oracle.com/java/technologies/javase-downloads.html)
 - [Spring Boot](https://spring.io/projects/spring-boot)
