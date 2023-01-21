@@ -9,13 +9,11 @@ import com.movierental.spring.exceptions.ResourceNotFoundException;
 import com.movierental.spring.validators.CustomValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Validated
 @RequiredArgsConstructor
 public class StaffServiceImpl implements StaffService {
 
@@ -41,38 +39,10 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public StaffDto createStaff(StaffDto dto) {
         Staff staff = staffMapper.toEntity(dto);
-        staffRepository.save(staff);
-        return staffMapper.toDto(staff);
+        Staff saved = staffRepository.save(staff);
+        staff.setStaffId(saved.getStaffId());
+        return staffMapper.toDto(saved);
     }
-
-//    @Override
-//    public MovieDto updateF(Long id, MovieTitleUpdateDto movieUpdateDto) {
-//        Optional<Movie> movieOptional = staffRepository.findById(id);
-//        if (movieOptional.isPresent() && movieUpdateDto != null) {
-//            Movie movie = movieOptional.get();
-//            customValidator.validateValueLength(movieUpdateDto.getTitle(), "Title");
-//            staffMapper.toDto(movie);
-//            movie.setTitle(movieUpdateDto.getTitle());
-//            movie = staffRepository.save(movie);
-//            return staffMapper.toDto(movie);
-//        }
-//        throw new ResourceNotFoundException("Movie with id: " + id + " not found.");
-//    }
-
-//    @Override
-//    public MovieDto updateDescription(Long id, MovieDescriptionUpdateDto movieUpdateDto) {
-//        Optional<Movie> movieOptional = staffRepository.findById(id);
-//        if (movieOptional.isPresent() && movieUpdateDto != null) {
-//            Movie movie = movieOptional.get();
-//            customValidator.validateValueLength(movieUpdateDto.getDescription(), "Description");
-//            staffMapper.toDto(movie);
-//
-//            movie.setDescription(movieUpdateDto.getDescription());
-//            movie = staffRepository.save(movie);
-//            return staffMapper.toDto(movie);
-//        }
-//        throw new ResourceNotFoundException("Movie with id: " + id + " not found.");
-//    }
 
     @Override
     public void deleteStaffById(Long id) {

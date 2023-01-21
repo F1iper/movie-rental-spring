@@ -1,6 +1,8 @@
 package com.movierental.spring.application.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Staff {
 
     @Id
@@ -15,9 +19,9 @@ public class Staff {
     @Column(name = "staff_id")
     private Long staffId;
 
-    private String firstName;
+    private String firstname;
 
-    private String lastName;
+    private String lastname;
 
     private Double salary;
 

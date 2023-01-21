@@ -40,6 +40,7 @@ public class BranchServiceImpl implements BranchService {
 
     @Override
     public BranchDto createBranch(BranchDto dto) {
+        // TODO: 1/21/23 get rid of custom validation + show real object id from DB (staff as example
         customValidator.validateValueLength(dto.getName(), "Branch name");
         Branch branch = branchMapper.toEntity(dto);
         branchRepository.save(branch);

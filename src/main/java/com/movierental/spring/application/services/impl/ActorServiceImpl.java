@@ -40,10 +40,9 @@ public class ActorServiceImpl implements ActorService {
 
     @Override
     public ActorDto createActor(ActorDto dto) {
-        customValidator.validateValueLength(dto.getFirstname(), "Actor firstname");
-        customValidator.validateValueLength(dto.getLastname(), "Actor lastname");
         Actor actor = actorMapper.toEntity(dto);
-        actorRepository.save(actor);
+        Actor saved = actorRepository.save(actor);
+        actor.setId(saved.getId());
         return actorMapper.toDto(actor);
     }
 
