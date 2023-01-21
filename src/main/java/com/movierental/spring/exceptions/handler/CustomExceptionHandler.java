@@ -4,6 +4,7 @@ import com.movierental.spring.exceptions.CustomErrorResponse;
 import com.movierental.spring.exceptions.EmptyValueException;
 import com.movierental.spring.exceptions.InvalidDataLengthException;
 import com.movierental.spring.exceptions.ResourceNotFoundException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,11 +14,21 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<CustomErrorResponse> handleConstraintViolation(DataIntegrityViolationException e) {
+        CustomErrorResponse error = new CustomErrorResponse();
+        error.setMessage(e.getMessage());
+        error.setTimestamp(LocalDateTime.now());
+        error.setStatus(HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public ResponseEntity<CustomErrorResponse> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e) {

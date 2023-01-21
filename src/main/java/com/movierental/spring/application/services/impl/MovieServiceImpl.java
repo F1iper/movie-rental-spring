@@ -34,16 +34,16 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public MovieDto findMovieById(Long id) {
-        Movie company = movieRepository.findById(id).orElseThrow(() ->
+        Movie movie = movieRepository.findById(id).orElseThrow(() ->
                 new ResourceNotFoundException("Movie with id: " + id + " does not exist."));
-        return movieMapper.toDto(company);
+        return movieMapper.toDto(movie);
     }
 
     @Override
     public MovieDto createMovie(MovieDto dto) {
-        Movie company = movieMapper.toEntity(dto);
-        movieRepository.save(company);
-        return movieMapper.toDto(company);
+        Movie movie = movieMapper.toEntity(dto);
+        movieRepository.save(movie);
+        return movieMapper.toDto(movie);
     }
 
     @Override

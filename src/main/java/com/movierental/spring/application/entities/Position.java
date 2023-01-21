@@ -1,8 +1,6 @@
 package com.movierental.spring.application.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,14 +9,12 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class Branch {
-
+@Table(name = "positions")
+public class Position {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "branch_id")
-    private Long branchId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "position_id")
+    private Long id;
 
     private String name;
 

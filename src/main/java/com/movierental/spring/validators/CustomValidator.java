@@ -9,14 +9,14 @@ public class CustomValidator {
     private final int MIN_NAME_LENGTH = 2;
     private final int MAX_NAME_LENGTH = 40;
 
-    public void validateValueLength(String name, String messageInfo) {
-        if (name == null) {
+    public void validateValueLength(String valueName, String messageInfo) {
+        if (valueName == null) {
             throw new InvalidDataLengthException(messageInfo + " cannot be null");
         }
-        if (name.length() < MIN_NAME_LENGTH) {
+        if (valueName.length() < MIN_NAME_LENGTH) {
             throw new InvalidDataLengthException(messageInfo + " must have a minimum length of " + MIN_NAME_LENGTH + " characters.");
         }
-        if (name.length() > MAX_NAME_LENGTH) {
+        if (valueName.length() > MAX_NAME_LENGTH) {
             throw new InvalidDataLengthException(messageInfo + " must have a maximum length of " + MAX_NAME_LENGTH + " characters.");
         }
     }
