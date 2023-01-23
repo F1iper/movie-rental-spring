@@ -1,11 +1,12 @@
 package com.movierental.spring.application.controllers.auth;
 
 
+import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
-import com.movierental.spring.application.entities.User;
 import com.movierental.spring.application.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -21,14 +22,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<AppUser>> getUsers() {
         return ResponseEntity.ok().body(userService.getUsers());
     }
 
     @PostMapping("/user/save")
-    public ResponseEntity<User> saveUser(@RequestBody @Valid User user) {
+    public ResponseEntity<AppUser> saveUser(@RequestBody @Valid AppUser appUser) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/v1/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+        return ResponseEntity.created(uri).body(userService.saveUser(appUser));
     }
 
     @PostMapping("/role/save")
@@ -38,6 +39,7 @@ public class UserController {
     }
 
     @PostMapping("/role/addtouser")
+    @Secured(value = "ROLE_SUPER_ADMIN")
     public ResponseEntity<Void> addRoleToUser(@RequestBody @Valid RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
         return ResponseEntity.ok().build();

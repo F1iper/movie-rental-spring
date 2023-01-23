@@ -1,7 +1,7 @@
 package com.movierental.spring.application.services.impl;
 
+import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
-import com.movierental.spring.application.entities.User;
 import com.movierental.spring.application.repositories.RoleRepository;
 import com.movierental.spring.application.repositories.UserRepository;
 import com.movierental.spring.application.services.UserService;
@@ -22,9 +22,9 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
 
     @Override
-    public User saveUser(User user) {
-        log.info("Saving new user {} to db", user.getName());
-        return userRepository.save(user);
+    public AppUser saveUser(AppUser appUser) {
+        log.info("Saving new user {} to db", appUser.getName());
+        return userRepository.save(appUser);
     }
 
     @Override
@@ -36,19 +36,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Adding role {} to user {} ", roleName, username);
-        User user = userRepository.findByUsername(username);
+        AppUser appUser = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
-        user.getRoles().add(role);
+        appUser.getRoles().add(role);
     }
 
     @Override
-    public User getUser(String username) {
+    public AppUser getUser(String username) {
         log.info("Fetching user {} ", username);
         return userRepository.findByUsername(username);
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<AppUser> getUsers() {
         log.info("Fetching users");
         return userRepository.findAll();
     }

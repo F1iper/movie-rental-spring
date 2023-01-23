@@ -8,7 +8,7 @@ The application uses Spring Boot as its foundation, providing a robust and easy-
 Spring Security with JWT is used to handle authentication and authorization, ensuring that only authorized users can access the various 
 features of the application.
 
-The application includes CRUD (Create, Read, Update, Delete) functionality for managing movies and user accounts. 
+The application includes CRUD (Create, Read, Update, Delete) functionality for managing movies and appUser accounts. 
 Users can search for movies by title, view movie details, and rent or return movies. 
 They can also view their rental history and update their account information.
 

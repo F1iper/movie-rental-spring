@@ -20,7 +20,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Import({SecurityConfig.class, TokenService.class})
 class AuthControllerTest {
 
-
     @Autowired
     MockMvc mockMvc;
 
