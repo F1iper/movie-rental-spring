@@ -3,7 +3,7 @@ package com.movierental.spring.application.services.impl;
 import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
 import com.movierental.spring.application.repositories.RoleRepository;
-import com.movierental.spring.application.repositories.UserRepository;
+import com.movierental.spring.application.repositories.AppUserRepository;
 import com.movierental.spring.application.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +18,13 @@ import java.util.List;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final AppUserRepository appUserRepository;
     private final RoleRepository roleRepository;
 
     @Override
     public AppUser saveUser(AppUser appUser) {
         log.info("Saving new user {} to db", appUser.getName());
-        return userRepository.save(appUser);
+        return appUserRepository.save(appUser);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Adding role {} to user {} ", roleName, username);
-        AppUser appUser = userRepository.findByUsername(username);
+        AppUser appUser = appUserRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
         appUser.getRoles().add(role);
     }
@@ -44,12 +44,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUser getUser(String username) {
         log.info("Fetching user {} ", username);
-        return userRepository.findByUsername(username);
+        return appUserRepository.findByUsername(username);
     }
 
     @Override
     public List<AppUser> getUsers() {
         log.info("Fetching users");
-        return userRepository.findAll();
+        return appUserRepository.findAll();
     }
 }
