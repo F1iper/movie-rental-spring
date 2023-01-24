@@ -1,46 +1,70 @@
 package com.movierental.spring.exceptions.handler;
 
-import com.movierental.spring.exceptions.CustomErrorResponse;
-import com.movierental.spring.exceptions.EmptyValueException;
-import com.movierental.spring.exceptions.InvalidDataLengthException;
-import com.movierental.spring.exceptions.ResourceNotFoundException;
+import com.movierental.spring.exceptions.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import javax.validation.ConstraintViolationException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<CustomErrorResponse> handleConstraintViolation(DataIntegrityViolationException e) {
-        CustomErrorResponse error = new CustomErrorResponse();
-        error.setMessage(e.getMessage());
-        error.setTimestamp(LocalDateTime.now());
-        error.setStatus(HttpStatus.BAD_REQUEST.value());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<CustomErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<CustomErrorResponse> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e) {
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<CustomErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<CustomErrorResponse> handleConstraintViolation(DataIntegrityViolationException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
+    }
+
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValidExceptions(MethodArgumentNotValidException e) {
+//        return createCustomErrorExceptionResponseAsList(e);
+//    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<CustomErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+        return createCustomErrorExceptionResponseAsList(e);
+    }
+
+    @ExceptionHandler(EmptyValueException.class)
+    public ResponseEntity<CustomErrorResponse> handleEmptyValueException(EmptyValueException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<CustomErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
+    }
+
+    @ExceptionHandler({InvalidDataLengthException.class})
+    public ResponseEntity<CustomErrorResponse> handleInvalidDataLengthException(InvalidDataLengthException e) {
+        return createCustomErrorExceptionResponse(e.getMessage());
+    }
+
+    private static ResponseEntity<CustomErrorResponse> createCustomErrorExceptionResponse(String e) {
         CustomErrorResponse error = new CustomErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),
+                e,
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<CustomErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
+    private static ResponseEntity<CustomErrorResponse> createCustomErrorExceptionResponseAsList(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         List<FieldError> fieldErrors = result.getFieldErrors();
         StringBuilder sb = new StringBuilder();
@@ -48,38 +72,6 @@ public class CustomExceptionHandler {
         for (FieldError error : fieldErrors) {
             sb.append(error.getField() + ": " + error.getDefaultMessage() + ", ");
         }
-        String message = sb.substring(0, sb.toString().length() - 2);
-        CustomErrorResponse errorResponse = new CustomErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                message,
-                LocalDateTime.now());
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({EmptyValueException.class})
-    public ResponseEntity<CustomErrorResponse> handleEmptyValueException(EmptyValueException e) {
-        CustomErrorResponse error = new CustomErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),
-                LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler({ResourceNotFoundException.class})
-    public ResponseEntity<CustomErrorResponse> handleResourceNotFoundException(ResourceNotFoundException e) {
-        CustomErrorResponse error = new CustomErrorResponse(
-                HttpStatus.NOT_FOUND.value(),
-                e.getMessage(),
-                LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler({InvalidDataLengthException.class})
-    public ResponseEntity<CustomErrorResponse> handleInvalidDataLengthException(InvalidDataLengthException e) {
-        CustomErrorResponse error = new CustomErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
-                e.getMessage(),
-                LocalDateTime.now());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        return createCustomErrorExceptionResponse(e.getMessage());
     }
 }

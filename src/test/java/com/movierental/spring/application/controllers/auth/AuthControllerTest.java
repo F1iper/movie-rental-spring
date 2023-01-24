@@ -2,6 +2,7 @@ package com.movierental.spring.application.controllers.auth;
 
 import com.movierental.spring.configuration.SecurityConfig;
 import com.movierental.spring.configuration.token.TokenService;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -18,7 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest({AuthController.class})
 @Import({SecurityConfig.class, TokenService.class})
+@RequiredArgsConstructor
 class AuthControllerTest {
+
+    private final static String USERNAME = "testuser";
+    private final static String PASSWORD = "password1";
+
 
     @Autowired
     MockMvc mockMvc;
@@ -32,7 +38,7 @@ class AuthControllerTest {
     @Test
     void rootWhenAuthenticatedThenSaysHelLo() throws Exception {
         MvcResult mvcResult = this.mockMvc.perform(post("/api/v1/auth/token")
-                        .with(httpBasic("fliper", "password")))
+                        .with(httpBasic(USERNAME, PASSWORD)))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -40,7 +46,7 @@ class AuthControllerTest {
 
         this.mockMvc.perform(get("/api/v1/auth")
                         .header("Authorization", "Bearer " + token))
-                .andExpect(content().string("fliper"));
+                .andExpect(content().string(USERNAME));
     }
 
     @Test

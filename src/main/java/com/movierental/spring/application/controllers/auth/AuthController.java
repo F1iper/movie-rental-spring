@@ -1,12 +1,15 @@
 package com.movierental.spring.application.controllers.auth;
 
+import com.movierental.spring.application.dtos.AppUserDto;
+import com.movierental.spring.application.dtos.RegisterDto;
+import com.movierental.spring.application.services.RegisterService;
 import com.movierental.spring.configuration.token.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 
 @RestController
@@ -16,13 +19,14 @@ import java.security.Principal;
 @Slf4j
 public class AuthController {
 
+    private final RegisterService registerService;
     private final TokenService tokenService;
 
-    @GetMapping
-    public String getMe(Principal principal) {
-        return principal.getName();
-    }
+    @PostMapping("/register")
+    public ResponseEntity<AppUserDto> register(@RequestBody RegisterDto registerDto) {
+        return new ResponseEntity<>(registerService.register(registerDto), HttpStatus.OK);
 
+    }
 
     @PostMapping("/token")
     public String token(Authentication authentication) {

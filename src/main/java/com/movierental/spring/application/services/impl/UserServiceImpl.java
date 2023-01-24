@@ -2,9 +2,10 @@ package com.movierental.spring.application.services.impl;
 
 import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
-import com.movierental.spring.application.repositories.RoleRepository;
 import com.movierental.spring.application.repositories.AppUserRepository;
+import com.movierental.spring.application.repositories.RoleRepository;
 import com.movierental.spring.application.services.UserService;
+import com.movierental.spring.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addRoleToUser(String username, String roleName) {
         log.info("Adding role {} to user {} ", roleName, username);
-        AppUser appUser = appUserRepository.findByUsername(username);
+        AppUser appUser = appUserRepository.findByUsername(username).orElseThrow(() ->
+                new ResourceNotFoundException("User with username: " + username + " does not exist."));
         Role role = roleRepository.findByName(roleName);
         appUser.getRoles().add(role);
     }
@@ -44,7 +46,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public AppUser getUser(String username) {
         log.info("Fetching user {} ", username);
-        return appUserRepository.findByUsername(username);
+        return appUserRepository.findByUsername(username).orElseThrow(() ->
+                new ResourceNotFoundException("User with username: " + username + " does not exist."));
     }
 
     @Override

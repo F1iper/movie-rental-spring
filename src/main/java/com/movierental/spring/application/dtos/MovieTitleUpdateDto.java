@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ public class MovieTitleUpdateDto {
 
     private Long id;
 
-    @Size(min = 2, max = 40, message = "must be between 2 and 40 characters.")
     @NotEmpty(message = "cannot be empty.")
+    @Length(min = 2, max = 40, message = "must be between 2 and 40 characters.")
     private String title;
 }
