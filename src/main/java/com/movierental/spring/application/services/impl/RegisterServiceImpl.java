@@ -1,6 +1,8 @@
 package com.movierental.spring.application.services.impl;
 
 import com.movierental.spring.application.dtos.AppUserDto;
+import com.movierental.spring.application.dtos.AuthResponseDto;
+import com.movierental.spring.application.dtos.LoginDto;
 import com.movierental.spring.application.dtos.RegisterDto;
 import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
@@ -8,8 +10,14 @@ import com.movierental.spring.application.mappers.AppUserMapper;
 import com.movierental.spring.application.repositories.AppUserRepository;
 import com.movierental.spring.application.repositories.RoleRepository;
 import com.movierental.spring.application.services.RegisterService;
+import com.movierental.spring.configuration.token.TokenService;
 import com.movierental.spring.exceptions.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +31,8 @@ public class RegisterServiceImpl implements RegisterService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final AppUserMapper appUserMapper;
+    private final AuthenticationManager authenticationManager;
+    private final TokenService tokenService;
 
 
     public AppUserDto register(RegisterDto registerDto) {
@@ -40,5 +50,14 @@ public class RegisterServiceImpl implements RegisterService {
         user.setRoles(Collections.singletonList(roles));
         appUserRepository.save(user);
         return appUserMapper.toDto(user);
+    }
+
+    @Override
+    public AuthResponseDto login(LoginDto loginDto) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = tokenService.generateToken(authentication);
+        return new AuthResponseDto(token);
     }
 }

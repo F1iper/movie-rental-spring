@@ -8,6 +8,4 @@ public class AppUserDto {
     private String name;
 
     private String username;
-
-    private String password;
 }

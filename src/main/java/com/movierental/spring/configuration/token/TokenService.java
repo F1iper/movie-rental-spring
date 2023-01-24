@@ -1,6 +1,11 @@
 package com.movierental.spring.configuration.token;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -12,8 +17,11 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+import static com.movierental.spring.configuration.token.SecurityConstants.JWT_SECRET;
+
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TokenService {
 
     private final JwtEncoder jwtEncoder;
@@ -24,6 +32,10 @@ public class TokenService {
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
 
+        Jwts.builder()
+                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
+                .compact();
+
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
@@ -32,5 +44,23 @@ public class TokenService {
                 .claim("scope", scope)
                 .build();
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public String getUsernameFromJwt(String token) {
+        Claims claims = Jwts.parser()
+                .setSigningKey(JWT_SECRET)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(JWT_SECRET).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            log.info("There was an error: {} ", e.getMessage());
+            throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect.");
+        }
     }
 }
