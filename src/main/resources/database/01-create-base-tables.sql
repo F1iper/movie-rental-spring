@@ -18,6 +18,8 @@ name VARCHAR(30) NOT NULL
 --changeset fliper:3
 
 CREATE TABLE IF NOT EXISTS app_user_roles (
-id BIGINT NOT NULL FOREIGN KEY app_user(id) REFERENCES app_user(id),
-role_id BIGINT NOT NULL FOREIGN KEY (role_id) REFERENCES role(id)
+id BIGINT NOT NULL ,
+role_id BIGINT NOT NULL,
+FOREIGN KEY (id) REFERENCES app_user(id),
+FOREIGN KEY (role_id) REFERENCES role(id)
 );
