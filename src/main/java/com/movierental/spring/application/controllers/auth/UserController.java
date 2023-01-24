@@ -5,6 +5,7 @@ import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
 import com.movierental.spring.application.services.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class UserController {
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>> getUsers() {
-        return ResponseEntity.ok().body(userService.getUsers());
+        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/user/save")
@@ -42,6 +43,6 @@ public class UserController {
     @Secured(value = "ROLE_SUPER_ADMIN")
     public ResponseEntity<Void> addRoleToUser(@RequestBody @Valid RoleToUserForm form) {
         userService.addRoleToUser(form.getUsername(), form.getRoleName());
-        return ResponseEntity.ok().build();
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

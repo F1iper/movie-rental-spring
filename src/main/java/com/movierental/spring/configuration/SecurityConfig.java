@@ -30,13 +30,7 @@ public class SecurityConfig {
 //                .password("{noop}password")
 //                .authorities("ADMIN")
 //                .build();
-//
-//        UserDetails user = User.builder()
-//                .username("user")
-//                .password("{noop}password")
-//                .authorities("USER")
-//                .build();
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername("theuser");
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername("testuser");
 
         return new InMemoryUserDetailsManager(userDetails);
     }

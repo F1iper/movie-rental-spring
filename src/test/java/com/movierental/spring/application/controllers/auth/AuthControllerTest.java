@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AuthControllerTest {
 
     private final static String USERNAME = "testuser";
-    private final static String PASSWORD = "password1";
+    private final static String PASSWORD = "password123";
 
 
     @Autowired
