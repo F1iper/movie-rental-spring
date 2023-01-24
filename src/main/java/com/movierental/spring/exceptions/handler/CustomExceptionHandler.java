@@ -31,11 +31,6 @@ public class CustomExceptionHandler {
         return createCustomErrorExceptionResponse(e.getMessage());
     }
 
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ResponseEntity<CustomErrorResponse> handleMethodArgumentNotValidExceptions(MethodArgumentNotValidException e) {
-//        return createCustomErrorExceptionResponseAsList(e);
-//    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomErrorResponse> handleValidationExceptions(MethodArgumentNotValidException e) {
         return createCustomErrorExceptionResponseAsList(e);
@@ -58,7 +53,6 @@ public class CustomExceptionHandler {
 
     private static ResponseEntity<CustomErrorResponse> createCustomErrorExceptionResponse(String e) {
         CustomErrorResponse error = new CustomErrorResponse(
-                HttpStatus.BAD_REQUEST.value(),
                 e,
                 LocalDateTime.now());
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);

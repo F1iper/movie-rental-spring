@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CustomErrorResponse {
 
-    private int status;
     private String message;
     private LocalDateTime timestamp;
 }
