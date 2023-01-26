@@ -2,7 +2,6 @@ package com.movierental.spring.configuration.token;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -31,10 +30,6 @@ public class TokenService {
         String scope = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(" "));
-
-        Jwts.builder()
-                .signWith(SignatureAlgorithm.HS512, JWT_SECRET)
-                .compact();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
