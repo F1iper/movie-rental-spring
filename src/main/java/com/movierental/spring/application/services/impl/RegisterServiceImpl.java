@@ -13,7 +13,6 @@ import com.movierental.spring.application.services.RegisterService;
 import com.movierental.spring.configuration.token.TokenService;
 import com.movierental.spring.exceptions.UserAlreadyExistsException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
