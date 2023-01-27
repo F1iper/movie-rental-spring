@@ -4,7 +4,7 @@ import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
 import com.movierental.spring.application.repositories.AppUserRepository;
 import com.movierental.spring.application.repositories.RoleRepository;
-import com.movierental.spring.application.services.UserService;
+import com.movierental.spring.application.services.AppUserService;
 import com.movierental.spring.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
-public class UserServiceImpl implements UserService {
+public class AppAppUserServiceImpl implements AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final RoleRepository roleRepository;

@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -36,12 +37,12 @@ public class AuthController {
         return new ResponseEntity<>(new AuthResponseDto(registerService.login(loginDto).getAccessToken()), HttpStatus.OK);
     }
 
-//    @PostMapping("/token")
-//    public String token(Authentication authentication) {
-//        log.debug("Token requested for user: {}", authentication.getName());
-//        String token = tokenService.generateToken(authentication);
-//        log.debug("Token granted {}", token);
-//        return token;
-//    }
+    @PostMapping("/token")
+    public String token(Authentication authentication) {
+        log.debug("Token requested for user: {}", authentication.getName());
+        String token = tokenService.generateToken(authentication);
+        log.debug("Token granted {}", token);
+        return token;
+    }
 
 }

@@ -3,6 +3,7 @@ package com.movierental.spring.configuration.token;
 import com.movierental.spring.configuration.CustomUserDetailsService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,9 @@ import java.io.IOException;
 @NoArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private TokenService tokenService;
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
 
