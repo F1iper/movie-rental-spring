@@ -55,6 +55,7 @@ public class TokenService {
             return true;
         } catch (Exception e) {
             log.info("There was an error: {} ", e.getMessage());
+            System.out.println("Printing TOKEN in validateToken: " + token);
             throw new AuthenticationCredentialsNotFoundException("JWT was expired or incorrect.");
         }
     }

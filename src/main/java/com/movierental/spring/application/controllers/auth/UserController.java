@@ -3,7 +3,7 @@ package com.movierental.spring.application.controllers.auth;
 
 import com.movierental.spring.application.entities.AppUser;
 import com.movierental.spring.application.entities.Role;
-import com.movierental.spring.application.services.UserService;
+import com.movierental.spring.application.services.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,29 +20,29 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final AppUserService appUserService;
 
     @GetMapping("/users")
     public ResponseEntity<List<AppUser>> getUsers() {
-        return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(appUserService.getUsers(), HttpStatus.OK);
     }
 
     @PostMapping("/user/save")
     public ResponseEntity<AppUser> saveUser(@RequestBody @Valid AppUser appUser) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/v1/user/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveUser(appUser));
+        return ResponseEntity.created(uri).body(appUserService.saveUser(appUser));
     }
 
     @PostMapping("/role/save")
     public ResponseEntity<Role> saveRole(@RequestBody @Valid Role role) {
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/v1/role/save").toUriString());
-        return ResponseEntity.created(uri).body(userService.saveRole(role));
+        return ResponseEntity.created(uri).body(appUserService.saveRole(role));
     }
 
     @PostMapping("/role/addtouser")
     @Secured(value = "ROLE_SUPER_ADMIN")
     public ResponseEntity<Void> addRoleToUser(@RequestBody @Valid RoleToUserForm form) {
-        userService.addRoleToUser(form.getUsername(), form.getRoleName());
+        appUserService.addRoleToUser(form.getUsername(), form.getRoleName());
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }
