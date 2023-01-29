@@ -1,7 +1,6 @@
 package com.movierental.spring.application.controllers.auth;
 
 import com.movierental.spring.configuration.SecurityConfig;
-import com.movierental.spring.configuration.token.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

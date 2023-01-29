@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface AppUserService {
 
-    AppUser saveUser(AppUser appUser);
+    AppUser saveAppUser(AppUser appUser);
 
     Role saveRole(Role role);
 
-    void addRoleToUser(String username, String roleName);
+    void addRoleToAppUser(String username, String roleName);
 
-    AppUser getUser(String username);
+    AppUser getAppUser(String username);
 
     List<AppUser> getUsers();
 }

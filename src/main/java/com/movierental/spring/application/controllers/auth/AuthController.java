@@ -1,19 +1,18 @@
 package com.movierental.spring.application.controllers.auth;
 
-import com.movierental.spring.application.dtos.AppUserDto;
-import com.movierental.spring.application.dtos.AuthResponseDto;
-import com.movierental.spring.application.dtos.LoginDto;
-import com.movierental.spring.application.dtos.RegisterDto;
-import com.movierental.spring.application.services.RegisterService;
-import com.movierental.spring.configuration.token.TokenService;
+import com.movierental.spring.application.dtos.RoleToUserForm;
+import com.movierental.spring.application.entities.AppUser;
+import com.movierental.spring.application.entities.Role;
+import com.movierental.spring.application.services.AppUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 
 @RestController
@@ -23,26 +22,28 @@ import javax.validation.Valid;
 @Slf4j
 public class AuthController {
 
-    private final RegisterService registerService;
-    private final TokenService tokenService;
+    private final AppUserService appUserService;
 
-    @PostMapping("/register")
-    public ResponseEntity<AppUserDto> register(@RequestBody RegisterDto registerDto) {
-        return new ResponseEntity<>(registerService.register(registerDto), HttpStatus.OK);
-
+    @GetMapping
+    public ResponseEntity<List<AppUser>> getUsers() {
+        return new ResponseEntity<>(appUserService.getUsers(), HttpStatus.OK);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody @Valid LoginDto loginDto) {
-        return new ResponseEntity<>(new AuthResponseDto(registerService.login(loginDto).getAccessToken()), HttpStatus.OK);
+    @PostMapping("/user/save")
+    public ResponseEntity<AppUser> createUser(@RequestBody AppUser user) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/save").toUriString());
+        return ResponseEntity.created(uri).body(appUserService.saveAppUser(user));
     }
 
-    @PostMapping("/token")
-    public String token(Authentication authentication) {
-        log.debug("Token requested for user: {}", authentication.getName());
-        String token = tokenService.generateToken(authentication);
-        log.debug("Token granted {}", token);
-        return token;
+    @PostMapping("/role/save")
+    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/role/save").toUriString());
+        return ResponseEntity.created(uri).body(appUserService.saveRole(role));
     }
 
+    @PostMapping("/role/addtouser")
+    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
+        appUserService.addRoleToAppUser(form.getUsername(), form.getRolename());
+        return ResponseEntity.ok().build();
+    }
 }
