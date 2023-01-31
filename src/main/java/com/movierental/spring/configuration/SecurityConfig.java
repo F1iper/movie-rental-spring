@@ -1,9 +1,9 @@
 package com.movierental.spring.configuration;
 
-import com.movierental.spring.application.controllers.auth.CustomAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,14 +14,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-    private final CustomAuthenticationFilter customAuthenticationFilter;
 
     @Bean
     public UserDetailsService userDetailsService(BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -42,18 +39,17 @@ public class SecurityConfig {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.POST)
-//                .hasRole("ADMIN")
-//                .antMatchers("/api/**")
-//                .hasAnyRole("ADMIN")
-//                .antMatchers("/user/**")
-//                .hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/login/**")
-//                .anonymous()
+                .antMatchers(HttpMethod.POST)
+                .hasRole("ADMIN")
+                .antMatchers("/api/**")
+                .hasAnyRole("ADMIN")
+                .antMatchers("/user/**")
+                .hasAnyRole("USER", "ADMIN")
+                .antMatchers("/login/**")
+                .anonymous()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .addFilterBefore(customAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic()
                 .and()
                 .sessionManagement()
@@ -71,7 +67,6 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
-
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
