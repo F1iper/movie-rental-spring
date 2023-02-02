@@ -1,49 +1,44 @@
 package com.movierental.spring.application.controllers.auth;
 
-import com.movierental.spring.application.dtos.RoleToUserForm;
-import com.movierental.spring.application.entities.AppUser;
-import com.movierental.spring.application.entities.Role;
-import com.movierental.spring.application.services.AppUserService;
+import com.movierental.spring.configuration.JwtUtil;
+import com.movierental.spring.configuration.MyUserDetailsService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.List;
-
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/v1/auth")
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RequiredArgsConstructor
-@Slf4j
 public class AuthController {
 
-    private final AppUserService appUserService;
+    private final AuthenticationManager authenticationManager;
+    private final MyUserDetailsService myUserDetailsService;
+    private final JwtUtil jwtTokenUtil;
+
 
     @GetMapping
-    public ResponseEntity<List<AppUser>> getUsers() {
-        return new ResponseEntity<>(appUserService.getUsers(), HttpStatus.OK);
+    public String hello() {
+        return "Hello world";
     }
 
-    @PostMapping("/user/save")
-    public ResponseEntity<AppUser> createUser(@RequestBody AppUser user) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/user/save").toUriString());
-        return ResponseEntity.created(uri).body(appUserService.saveAppUser(user));
-    }
+    @PostMapping("/register")
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody @Valid AuthenticationRequest request) throws Exception {
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        } catch (BadCredentialsException e) {
+            throw new Exception("Incorrect username or password", e);
+        }
+        final UserDetails userDetails = myUserDetailsService
+                .loadUserByUsername(request.getUsername());
+        final String jwt = jwtTokenUtil.generateToken(userDetails);
 
-    @PostMapping("/role/save")
-    public ResponseEntity<Role> saveRole(@RequestBody Role role) {
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("api/role/save").toUriString());
-        return ResponseEntity.created(uri).body(appUserService.saveRole(role));
-    }
-
-    @PostMapping("/role/addtouser")
-    public ResponseEntity<?> addRoleToUser(@RequestBody RoleToUserForm form) {
-        appUserService.addRoleToAppUser(form.getUsername(), form.getRolename());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

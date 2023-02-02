@@ -82,9 +82,14 @@
         <!--        </dependency>-->
 
         <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.2.2</version>
+            <groupId>com.10duke.client.jwt</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
         </dependency>
 
     </dependencies>
@@ -111,7 +116,7 @@
                     <driver>com.mysql.cj.jdbc.Driver</driver>
                     <changeLogFile>src/main/resources/database/changelog/changelog.sql</changeLogFile>
                     <url>jdbc:mysql://localhost:3306/movierental</url>
-                    <username>fliper</username>
+                    <username>root</username>
                     <password>C9l9seum2@</password>
                 </configuration>
                 <executions>
