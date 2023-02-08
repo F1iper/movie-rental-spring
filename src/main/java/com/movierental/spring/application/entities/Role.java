@@ -1,16 +1,21 @@
 package com.movierental.spring.application.entities;
 
+import com.movierental.spring.application.controllers.auth.ERole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-@Entity
 @Data
+@Entity
+@Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Role {
@@ -19,7 +24,6 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty(message = "cannot be empty.")
-    @Length(min = 4, max = 30, message = "must be between 4 and 30 characters.")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private ERole name;
 }

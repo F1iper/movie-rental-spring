@@ -1,6 +1,10 @@
 package com.movierental.spring.exceptions.handler;
 
-import com.movierental.spring.exceptions.*;
+import com.movierental.spring.exceptions.CustomErrorResponse;
+import com.movierental.spring.exceptions.EmptyValueException;
+import com.movierental.spring.exceptions.InvalidDataLengthException;
+import com.movierental.spring.exceptions.ResourceNotFoundException;
+import com.movierental.spring.exceptions.UserAlreadyExistsException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +50,7 @@ public class CustomExceptionHandler {
         return createCustomErrorExceptionResponse(e.getMessage());
     }
 
-    @ExceptionHandler({InvalidDataLengthException.class})
+    @ExceptionHandler({ InvalidDataLengthException.class })
     public ResponseEntity<CustomErrorResponse> handleInvalidDataLengthException(InvalidDataLengthException e) {
         return createCustomErrorExceptionResponse(e.getMessage());
     }
