@@ -1,18 +1,15 @@
 package com.movierental.spring.application.controllers.auth;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationRequest {
+@Data
+public class LoginRequest {
 
     private String username;
-
+    private String email;
     private String password;
-
 }

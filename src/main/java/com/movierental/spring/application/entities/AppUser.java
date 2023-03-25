@@ -18,8 +18,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -31,6 +31,11 @@ import java.util.List;
                 @UniqueConstraint(columnNames = "email")
         })
 public class AppUser {
+    public AppUser(String username, String email, String password){
+        this.username = username;
+        this.email = email;
+        this.password = password;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,5 +58,5 @@ public class AppUser {
             cascade = CascadeType.ALL)
     @JoinTable(name = "app_user_roles", joinColumns = @JoinColumn(name = "id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<>();
+    private Set<Role> roles = new HashSet<>();
 }
